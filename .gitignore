@@ -1,0 +1,48 @@
+# Gradle
+.gradle/
+build/
+**/build/
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.jar
+.gradletasknamecache
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Local config
+local.properties
+keystore.properties
+secrets.properties
+
+# Keystores
+*.jks
+*.keystore
+release/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+hs_err_pid*
+
+# Lint
+lint/intermediates/
+lint/generated/
+lint/outputs/
+lint/tmp/
+
+# Tests
+*.exec
+
+# Local environment
+.env
+.env.local

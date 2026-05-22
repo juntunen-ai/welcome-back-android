@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name (must NOT be translated to keep brand) -->
+    <string name="app_name" translatable="false">Welcome Back</string>
+
+    <!--
+        All other user-facing strings live in Strings.kt (LanguageManager).
+        That mirrors the iOS architecture and lets the user switch the language
+        at runtime without restarting the app. Android's strings.xml is only
+        used for things the OS needs at install time (app name, manifest labels).
+    -->
+</resources>

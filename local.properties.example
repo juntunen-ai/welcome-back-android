@@ -1,0 +1,21 @@
+# Copy this file to `local.properties` and fill in your real values.
+# `local.properties` is in .gitignore — your secrets stay local.
+
+# Path to your Android SDK. Android Studio will set this automatically the
+# first time you open the project.
+sdk.dir=/Users/YOU/Library/Android/sdk
+
+# Google AI Studio — https://aistudio.google.com/app/apikey
+GEMINI_API_KEY=
+
+# Google Cloud Console — Text-to-Speech API
+# https://console.cloud.google.com/apis/library/texttospeech.googleapis.com
+GOOGLE_TTS_API_KEY=
+
+# Google Cloud Console — Maps SDK for Android
+# https://console.cloud.google.com/google/maps-apis
+MAPS_API_KEY=
+
+# Spotify developer dashboard — https://developer.spotify.com/dashboard
+# Optional in v0.1; required from v0.5 onwards.
+SPOTIFY_CLIENT_ID=
