@@ -119,8 +119,10 @@ dependencies {
     // MediaPipe Tasks GenAI (Gemma on-device inference)
     implementation("com.google.mediapipe:tasks-genai:0.10.16")
 
-    // Spotify Android SDK (via JitPack)
-    implementation("com.github.spotify:android-sdk:v0.8.0")
+    // Spotify Android SDK — wired up in v0.5; keep commented until then so
+    // the project builds without a JitPack roundtrip for new contributors.
+    // implementation("com.spotify.android:auth:2.1.0")
+    // implementation("com.spotify.android:spotify-app-remote:0.8.0")
 
     // Splash screen
     implementation("androidx.core:core-splashscreen:1.0.1")
