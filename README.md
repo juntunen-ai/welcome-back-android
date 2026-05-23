@@ -148,4 +148,6 @@ gh release create vX.Y.0 --title "vX.Y.0 – <title>" --notes "..."
 
 ## License
 
-MIT
+Copyright (c) 2026 Harri Juntunen. All Rights Reserved.  
+Unauthorised use, reproduction, or distribution is strictly prohibited.  
+See [LICENSE](LICENSE) for full terms.

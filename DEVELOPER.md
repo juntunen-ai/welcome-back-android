@@ -1209,3 +1209,11 @@ The Android app is a port of the iOS app. When the iOS app adds a feature, check
 
 **iOS repo:** https://github.com/juntunen-ai/welcome-back  
 When in doubt about intended behaviour, read the iOS source code — it is the reference implementation.
+
+---
+
+## License
+
+Copyright (c) 2026 Harri Juntunen. All Rights Reserved.  
+Unauthorised use, reproduction, or distribution is strictly prohibited.  
+See [LICENSE](LICENSE) for full terms.
