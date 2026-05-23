@@ -142,6 +142,191 @@ object Strings {
         "main.placeholder.title" to "Main app coming in v0.4",
         "main.placeholder.body"  to "You've completed onboarding! The home screen, memories, family, and settings are scheduled for the v0.4 release.",
         "main.placeholder.reset" to "Restart onboarding",
+
+        // Common
+        "back"   to "Back",
+        "cancel" to "Cancel",
+        "save"   to "Save",
+        "delete" to "Delete",
+
+        // Home screen
+        "home.greeting"          to "Good day",
+        "home.intro.subtitle"    to "What would you like to remember today?",
+        "home.mic.label"         to "Tap to talk",
+        "home.mic.accessibility" to "Start voice conversation",
+        "home.location.finding"  to "Finding your location…",
+        "home.location.unavailable" to "Location unavailable",
+        "home.family.header"     to "YOUR FAMILY",
+        "home.about.title"       to "About Welcome Back",
+        "home.about.body"        to "Welcome Back is a compassionate AI companion that helps you recall memories, recognize family and friends, and feel more confident throughout your day.",
+
+        // Memories screen
+        "memories.title"          to "Memories",
+        "memories.family.header"  to "FAMILY",
+        "memories.places.header"  to "IMPORTANT PLACES",
+        "memories.stories.header" to "STORIES & MEMORIES",
+        "memories.empty"          to "No memories yet.\nAdd family members, places, and stories in Settings.",
+        "memories.story.hear"     to "Hear This Story",
+
+        // Memory categories
+        "memory.category.family" to "Family",
+        "memory.category.events" to "Events",
+        "memory.category.places" to "Places",
+        "memory.category.other"  to "Other",
+
+        // Place detail
+        "place.open.maps" to "Open in Maps",
+
+        // Family screens
+        "family.title"      to "Family",
+        "family.empty"      to "No family members yet.\nTap + in Settings to add someone.",
+        "family.add.title"  to "Add Family Member",
+        "family.edit.title" to "Edit Family Member",
+        "family.add.name"   to "Name",
+        "family.add.name.placeholder"         to "e.g. Anna",
+        "family.add.relationship"             to "Relationship",
+        "family.add.relationship.placeholder" to "e.g. Wife, Son, Daughter",
+        "family.add.phone"                    to "Phone",
+        "family.add.phone.placeholder"        to "e.g. +358 40 123 4567",
+        "family.add.biography"                to "About Them",
+        "family.add.biography.placeholder"    to "A few words about this person…",
+        "family.add.memory1"                  to "Memory 1",
+        "family.add.memory1.placeholder"      to "A special shared memory…",
+        "family.add.memory2"                  to "Memory 2",
+        "family.add.memory2.placeholder"      to "Another cherished memory…",
+        "family.edit.delete"                  to "Remove Family Member",
+        "family.edit.delete.confirm.title"    to "Remove Family Member",
+        "family.edit.delete.confirm.body"     to "This will permanently remove this person and their memories.",
+
+        // Family profile
+        "family.profile.biography" to "ABOUT",
+        "family.profile.memory1"   to "MEMORY",
+        "family.profile.memory2"   to "ANOTHER MEMORY",
+        "family.profile.hear"      to "Hear %s's Story",
+        "family.profile.stop"      to "Stop",
+
+        // Music screen
+        "music.title"           to "Music",
+        "music.subtitle"        to "Music & Memories",
+        "music.body"            to "Music has a powerful ability to unlock memories from the past. Connect Spotify to play songs that have meant the most to you throughout your life.",
+        "music.connect.spotify" to "Connect Spotify",
+        "music.coming.soon"     to "Spotify integration is coming in v0.5",
+
+        // Listening / voice session
+        "listening.title"     to "I'm Listening",
+        "listening.hint"      to "Tap the button below to start talking",
+        "listening.listening" to "Listening…",
+        "listening.thinking"  to "Thinking…",
+        "listening.speaking"  to "Speaking…",
+        "listening.error"     to "Something went wrong",
+        "listening.stop"      to "Stop",
+        "listening.start"     to "Start Talking",
+
+        // Settings
+        "settings.title"               to "Settings",
+        "settings.profile.unnamed"     to "Your Name",
+        "settings.profile.edit"        to "Edit personal information",
+        "settings.section.content"     to "Content",
+        "settings.section.preferences" to "Preferences",
+        "settings.section.legal"       to "Legal",
+        "settings.family"              to "Family Members",
+        "settings.family.count"        to "%d members",
+        "settings.memories"            to "Memories & Stories",
+        "settings.memories.count"      to "%d memories",
+        "settings.places"              to "Important Places",
+        "settings.places.count"        to "%d places",
+        "settings.notifications"       to "Notifications",
+        "settings.language"            to "Language",
+        "settings.voice.mode"          to "Voice Mode",
+        "settings.model"               to "AI Model",
+        "settings.privacy"             to "Privacy Policy",
+        "settings.terms"               to "Terms of Use",
+        "settings.reset"               to "Reset & Start Over",
+        "settings.reset.confirm.title" to "Reset Everything?",
+        "settings.reset.confirm.body"  to "All your data — family, memories, places, and photos — will be deleted and you'll return to the welcome screen. This cannot be undone.",
+        "settings.version"             to "Welcome Back v%s",
+
+        // Personal info
+        "settings.personal.title"               to "Personal Info",
+        "settings.personal.name"                to "Your Name",
+        "settings.personal.name.placeholder"    to "e.g. Harri",
+        "settings.personal.address"             to "Home Address",
+        "settings.personal.address.placeholder" to "e.g. Mannerheimintie 1, Helsinki",
+        "settings.personal.biography"           to "About You",
+        "settings.personal.biography.placeholder" to "A few sentences about yourself…",
+
+        // Family management
+        "settings.family.title" to "Family Members",
+        "settings.family.empty" to "No family members yet.\nTap + to add someone close to you.",
+        "settings.family.add"   to "Add Family Member",
+
+        // Memories management
+        "settings.memories.title" to "Memories & Stories",
+        "settings.memories.empty" to "No memories yet.\nTap + to add a story or memory.",
+
+        // Memory edit
+        "settings.memory.add.title"            to "Add Memory",
+        "settings.memory.edit.title"           to "Edit Memory",
+        "settings.memory.photo.hint"           to "Tap to add a photo",
+        "settings.memory.title.label"          to "Title",
+        "settings.memory.title.placeholder"    to "e.g. Our Wedding Day",
+        "settings.memory.date.label"           to "Date",
+        "settings.memory.date.placeholder"     to "e.g. June 1985",
+        "settings.memory.category.label"       to "Category",
+        "settings.memory.description.label"    to "Story",
+        "settings.memory.description.placeholder" to "Write the memory here…",
+        "settings.memory.delete"               to "Delete Memory",
+        "settings.memory.delete.confirm.title" to "Delete Memory?",
+        "settings.memory.delete.confirm.body"  to "This memory will be permanently deleted.",
+
+        // Places management
+        "settings.places.title" to "Important Places",
+        "settings.places.empty" to "No places yet.\nTap + to add a place that means something to you.",
+
+        // Place edit
+        "settings.place.add.title"              to "Add Place",
+        "settings.place.edit.title"             to "Edit Place",
+        "settings.place.photo.hint"             to "Tap to add a photo",
+        "settings.place.name.label"             to "Place Name",
+        "settings.place.name.placeholder"       to "e.g. Summer Cottage",
+        "settings.place.description.label"      to "What Makes It Special",
+        "settings.place.description.placeholder" to "Describe this place…",
+        "settings.place.delete"                 to "Delete Place",
+        "settings.place.delete.confirm.title"   to "Delete Place?",
+        "settings.place.delete.confirm.body"    to "This place will be permanently deleted.",
+
+        // Notifications
+        "settings.notifications.title"                to "Notifications",
+        "settings.notifications.enable"               to "Daily Reminders",
+        "settings.notifications.enable.subtitle"      to "Gentle check-ins throughout your day",
+        "settings.notifications.times"                to "REMINDER TIMES",
+        "settings.notifications.morning"              to "Morning",
+        "settings.notifications.noon"                 to "Noon",
+        "settings.notifications.afternoon"            to "Afternoon",
+        "settings.notifications.evening"              to "Evening",
+        "settings.notifications.topics.header"        to "WHAT TO REMIND YOU ABOUT",
+        "settings.notifications.topics.placeholder"   to "e.g. family names, important dates, home address…",
+
+        // Language
+        "settings.language.title" to "Language",
+        "settings.language.note"  to "Changing the language affects all text in the app.",
+
+        // Voice mode
+        "settings.voice.title"           to "Voice Mode",
+        "settings.voice.cloud"           to "Cloud (Gemini)",
+        "settings.voice.cloud.subtitle"  to "Requires internet. Best accuracy.",
+        "settings.voice.local"           to "On-Device",
+        "settings.voice.local.subtitle"  to "Works offline. Coming in v0.3.",
+        "settings.voice.note"            to "On-device voice processing arrives in v0.3.",
+
+        // Model settings
+        "settings.model.title"        to "AI Model",
+        "settings.model.current"      to "Currently using",
+        "settings.model.cloud.title"  to "Gemini 2.0 Flash (Cloud)",
+        "settings.model.cloud.body"   to "A fast, conversational AI model from Google. Requires an internet connection. Your messages are processed on Google's servers.",
+        "settings.model.local.title"  to "On-Device Model",
+        "settings.model.local.body"   to "A private AI that runs entirely on your phone — no internet required. Download coming in v0.3.",
+        "settings.model.coming.soon"  to "v0.3",
     )
 
     // ── Finnish ──────────────────────────────────────────────────────────────
@@ -277,5 +462,190 @@ object Strings {
         "main.placeholder.title" to "Pääsovellus tulee versioon v0.4",
         "main.placeholder.body"  to "Olet suorittanut onboardingin! Kotinäyttö, muistot, perhe ja asetukset ovat aikataulutettu v0.4-julkaisuun.",
         "main.placeholder.reset" to "Aloita onboarding uudelleen",
+
+        // Yleiset
+        "back"   to "Takaisin",
+        "cancel" to "Peruuta",
+        "save"   to "Tallenna",
+        "delete" to "Poista",
+
+        // Kotinäyttö
+        "home.greeting"          to "Hyvää päivää",
+        "home.intro.subtitle"    to "Mitä haluaisit muistella tänään?",
+        "home.mic.label"         to "Napauta puhuaksesi",
+        "home.mic.accessibility" to "Aloita äänipuhelu",
+        "home.location.finding"  to "Etsitään sijaintiasi…",
+        "home.location.unavailable" to "Sijainti ei saatavilla",
+        "home.family.header"     to "PERHEESI",
+        "home.about.title"       to "Tietoa Welcome Backista",
+        "home.about.body"        to "Welcome Back on välittävä tekoälykumppani, joka auttaa sinua muistelemaan, tunnistamaan perhettäsi ja ystäviäsi ja tuntemaan olosi varmemmaksi päivän aikana.",
+
+        // Muistot-näyttö
+        "memories.title"          to "Muistot",
+        "memories.family.header"  to "PERHE",
+        "memories.places.header"  to "TÄRKEÄT PAIKAT",
+        "memories.stories.header" to "TARINAT JA MUISTOT",
+        "memories.empty"          to "Ei muistoja vielä.\nLisää perheenjäseniä, paikkoja ja tarinoita asetuksissa.",
+        "memories.story.hear"     to "Kuuntele tämä tarina",
+
+        // Muistokategoriat
+        "memory.category.family" to "Perhe",
+        "memory.category.events" to "Tapahtumat",
+        "memory.category.places" to "Paikat",
+        "memory.category.other"  to "Muut",
+
+        // Paikkadetaljit
+        "place.open.maps" to "Avaa Kartassa",
+
+        // Perhenäytöt
+        "family.title"      to "Perhe",
+        "family.empty"      to "Ei perheenjäseniä vielä.\nNapauta + asetuksissa lisätäksesi jonkun.",
+        "family.add.title"  to "Lisää perheenjäsen",
+        "family.edit.title" to "Muokkaa perheenjäsentä",
+        "family.add.name"   to "Nimi",
+        "family.add.name.placeholder"         to "esim. Anna",
+        "family.add.relationship"             to "Suhde",
+        "family.add.relationship.placeholder" to "esim. Vaimo, Poika, Tytär",
+        "family.add.phone"                    to "Puhelin",
+        "family.add.phone.placeholder"        to "esim. +358 40 123 4567",
+        "family.add.biography"                to "Hänestä",
+        "family.add.biography.placeholder"    to "Muutama sana tästä henkilöstä…",
+        "family.add.memory1"                  to "Muisto 1",
+        "family.add.memory1.placeholder"      to "Erityinen yhteinen muisto…",
+        "family.add.memory2"                  to "Muisto 2",
+        "family.add.memory2.placeholder"      to "Toinen rakkaus muisto…",
+        "family.edit.delete"                  to "Poista perheenjäsen",
+        "family.edit.delete.confirm.title"    to "Poista perheenjäsen?",
+        "family.edit.delete.confirm.body"     to "Tämä poistaa pysyvästi tämän henkilön ja heidän muistonsa.",
+
+        // Perheprofiili
+        "family.profile.biography" to "HÄNESTÄ",
+        "family.profile.memory1"   to "MUISTO",
+        "family.profile.memory2"   to "TOINEN MUISTO",
+        "family.profile.hear"      to "Kuuntele %s:n tarina",
+        "family.profile.stop"      to "Pysäytä",
+
+        // Musiikkinäyttö
+        "music.title"           to "Musiikki",
+        "music.subtitle"        to "Musiikki ja muistot",
+        "music.body"            to "Musiikilla on voimakas kyky avata muistoja menneisyydestä. Yhdistä Spotify soittaaksesi kappaleita, jotka ovat merkinneet sinulle eniten elämäsi varrella.",
+        "music.connect.spotify" to "Yhdistä Spotify",
+        "music.coming.soon"     to "Spotify-integraatio tulee versioon v0.5",
+
+        // Kuuntelu / äänipuhelu
+        "listening.title"     to "Kuuntelen",
+        "listening.hint"      to "Napauta nappia aloittaaksesi puhumisen",
+        "listening.listening" to "Kuunnellaan…",
+        "listening.thinking"  to "Mietitään…",
+        "listening.speaking"  to "Puhutaan…",
+        "listening.error"     to "Jokin meni pieleen",
+        "listening.stop"      to "Pysäytä",
+        "listening.start"     to "Aloita puhuminen",
+
+        // Asetukset
+        "settings.title"               to "Asetukset",
+        "settings.profile.unnamed"     to "Nimesi",
+        "settings.profile.edit"        to "Muokkaa henkilötietoja",
+        "settings.section.content"     to "Sisältö",
+        "settings.section.preferences" to "Asetukset",
+        "settings.section.legal"       to "Oikeudellinen",
+        "settings.family"              to "Perheenjäsenet",
+        "settings.family.count"        to "%d jäsentä",
+        "settings.memories"            to "Muistot ja tarinat",
+        "settings.memories.count"      to "%d muistoa",
+        "settings.places"              to "Tärkeät paikat",
+        "settings.places.count"        to "%d paikkaa",
+        "settings.notifications"       to "Ilmoitukset",
+        "settings.language"            to "Kieli",
+        "settings.voice.mode"          to "Äänentunnistus",
+        "settings.model"               to "Tekoälymalli",
+        "settings.privacy"             to "Tietosuojaseloste",
+        "settings.terms"               to "Käyttöehdot",
+        "settings.reset"               to "Nollaa ja aloita alusta",
+        "settings.reset.confirm.title" to "Nollataan kaikki?",
+        "settings.reset.confirm.body"  to "Kaikki tietosi — perhe, muistot, paikat ja kuvat — poistetaan pysyvästi ja palataan tervetulonäyttöön. Tätä ei voi peruuttaa.",
+        "settings.version"             to "Welcome Back v%s",
+
+        // Henkilötiedot
+        "settings.personal.title"               to "Henkilötiedot",
+        "settings.personal.name"                to "Nimesi",
+        "settings.personal.name.placeholder"    to "esim. Harri",
+        "settings.personal.address"             to "Kotiosoite",
+        "settings.personal.address.placeholder" to "esim. Mannerheimintie 1, Helsinki",
+        "settings.personal.biography"           to "Sinusta",
+        "settings.personal.biography.placeholder" to "Muutama lause itsestäsi…",
+
+        // Perheenhallinta
+        "settings.family.title" to "Perheenjäsenet",
+        "settings.family.empty" to "Ei perheenjäseniä vielä.\nNapauta + lisätäksesi sinulle läheisen henkilön.",
+        "settings.family.add"   to "Lisää perheenjäsen",
+
+        // Muistojenhallinta
+        "settings.memories.title" to "Muistot ja tarinat",
+        "settings.memories.empty" to "Ei muistoja vielä.\nNapauta + lisätäksesi tarinan tai muiston.",
+
+        // Muiston muokkaus
+        "settings.memory.add.title"            to "Lisää muisto",
+        "settings.memory.edit.title"           to "Muokkaa muistoa",
+        "settings.memory.photo.hint"           to "Napauta lisätäksesi kuvan",
+        "settings.memory.title.label"          to "Otsikko",
+        "settings.memory.title.placeholder"    to "esim. Häämme",
+        "settings.memory.date.label"           to "Päivämäärä",
+        "settings.memory.date.placeholder"     to "esim. Kesäkuu 1985",
+        "settings.memory.category.label"       to "Kategoria",
+        "settings.memory.description.label"    to "Tarina",
+        "settings.memory.description.placeholder" to "Kirjoita muisto tähän…",
+        "settings.memory.delete"               to "Poista muisto",
+        "settings.memory.delete.confirm.title" to "Poistetaanko muisto?",
+        "settings.memory.delete.confirm.body"  to "Tämä muisto poistetaan pysyvästi.",
+
+        // Paikkojenhallinta
+        "settings.places.title" to "Tärkeät paikat",
+        "settings.places.empty" to "Ei paikkoja vielä.\nNapauta + lisätäksesi sinulle merkityksellisen paikan.",
+
+        // Paikan muokkaus
+        "settings.place.add.title"              to "Lisää paikka",
+        "settings.place.edit.title"             to "Muokkaa paikkaa",
+        "settings.place.photo.hint"             to "Napauta lisätäksesi kuvan",
+        "settings.place.name.label"             to "Paikan nimi",
+        "settings.place.name.placeholder"       to "esim. Kesämökki",
+        "settings.place.description.label"      to "Miksi se on erityinen",
+        "settings.place.description.placeholder" to "Kuvaile tätä paikkaa…",
+        "settings.place.delete"                 to "Poista paikka",
+        "settings.place.delete.confirm.title"   to "Poistetaanko paikka?",
+        "settings.place.delete.confirm.body"    to "Tämä paikka poistetaan pysyvästi.",
+
+        // Ilmoitukset
+        "settings.notifications.title"                to "Ilmoitukset",
+        "settings.notifications.enable"               to "Päivittäiset muistutukset",
+        "settings.notifications.enable.subtitle"      to "Lempeät muistelutukset päivän aikana",
+        "settings.notifications.times"                to "MUISTUTUSAJAT",
+        "settings.notifications.morning"              to "Aamu",
+        "settings.notifications.noon"                 to "Keskipäivä",
+        "settings.notifications.afternoon"            to "Iltapäivä",
+        "settings.notifications.evening"              to "Ilta",
+        "settings.notifications.topics.header"        to "MISTÄ MUISTUTTAA",
+        "settings.notifications.topics.placeholder"   to "esim. perheen nimet, tärkeät päivät, kotiosoite…",
+
+        // Kieli
+        "settings.language.title" to "Kieli",
+        "settings.language.note"  to "Kielen vaihto vaikuttaa kaikkeen tekstiin sovelluksessa.",
+
+        // Äänentunnistus
+        "settings.voice.title"           to "Äänentunnistus",
+        "settings.voice.cloud"           to "Pilvi (Gemini)",
+        "settings.voice.cloud.subtitle"  to "Vaatii internetin. Paras tarkkuus.",
+        "settings.voice.local"           to "Laitteessa",
+        "settings.voice.local.subtitle"  to "Toimii ilman nettiä. Tulossa v0.3:ssa.",
+        "settings.voice.note"            to "Laitetason äänenkäsittely tulee versioon v0.3.",
+
+        // Mallin asetukset
+        "settings.model.title"        to "Tekoälymalli",
+        "settings.model.current"      to "Käytössä tällä hetkellä",
+        "settings.model.cloud.title"  to "Gemini 2.0 Flash (Pilvi)",
+        "settings.model.cloud.body"   to "Nopea keskusteleva tekoälymalli Googlelta. Vaatii internetyhteyden. Viestisi käsitellään Googlen palvelimilla.",
+        "settings.model.local.title"  to "Laitemalli",
+        "settings.model.local.body"   to "Yksityinen tekoäly, joka toimii kokonaan puhelimellasi — ei internet-yhteyttä tarvita. Lataus tulee v0.3:ssa.",
+        "settings.model.coming.soon"  to "v0.3",
     )
 }

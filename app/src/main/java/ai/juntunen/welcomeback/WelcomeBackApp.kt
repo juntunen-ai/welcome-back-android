@@ -10,5 +10,6 @@ class WelcomeBackApp : Application() {
     override fun onCreate() {
         super.onCreate()
         LanguageManager.init(applicationContext)
+        ai.juntunen.welcomeback.services.NotificationService.createChannel(applicationContext)
     }
 }

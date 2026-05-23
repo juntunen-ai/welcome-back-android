@@ -51,6 +51,18 @@ data class Place(
 enum class VoiceMode { CLOUD, LOCAL }
 
 @Serializable
+enum class NotificationTime(val hour: Int, val minute: Int) {
+    MORNING(9, 0),
+    NOON(12, 0),
+    AFTERNOON(15, 0),
+    EVENING(18, 0);
+
+    companion object {
+        val allCases = listOf(MORNING, NOON, AFTERNOON, EVENING)
+    }
+}
+
+@Serializable
 data class UserProfile(
     val name: String = "",
     val profileImageURL: String = "",
@@ -64,9 +76,13 @@ data class UserProfile(
     val isVoiceCloningEnabled: Boolean = false,
     val notificationsEnabled: Boolean = false,
     val notificationTopics: String = "",
+    val notificationTimes: List<NotificationTime> = listOf(NotificationTime.MORNING),
     val isOnboardingComplete: Boolean = false
 ) {
     companion object {
         val DEFAULT = UserProfile()
     }
 }
+
+/** Tab destinations for the main app navigation. */
+enum class AppTab { HOME, MEMORIES, FAMILY, MUSIC, SETTINGS }

@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,6 +7,15 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
     id("com.google.devtools.ksp")
 }
+
+// Read local.properties at the top level so the keys are available everywhere
+val localPropsFile = rootProject.file("local.properties")
+val localProperties = Properties().apply {
+    if (localPropsFile.exists()) localPropsFile.inputStream().use { load(it) }
+}
+val geminiApiKey    = localProperties.getProperty("GEMINI_API_KEY",    "")
+val googleTtsApiKey = localProperties.getProperty("GOOGLE_TTS_API_KEY", "")
+val mapsApiKey      = localProperties.getProperty("MAPS_API_KEY",      "")
 
 android {
     namespace = "ai.juntunen.welcomeback"
@@ -19,18 +30,9 @@ android {
 
         vectorDrawables.useSupportLibrary = true
 
-        // Read API keys from local.properties (NOT committed to git).
-        val localProps = rootProject.file("local.properties")
-        val geminiKey = if (localProps.exists()) {
-            java.util.Properties().apply { load(localProps.inputStream()) }
-                .getProperty("GEMINI_API_KEY", "")
-        } else ""
-        val googleTtsKey = if (localProps.exists()) {
-            java.util.Properties().apply { load(localProps.inputStream()) }
-                .getProperty("GOOGLE_TTS_API_KEY", "")
-        } else ""
-        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiKey\"")
-        buildConfigField("String", "GOOGLE_TTS_API_KEY", "\"$googleTtsKey\"")
+        buildConfigField("String", "GEMINI_API_KEY",    "\"$geminiApiKey\"")
+        buildConfigField("String", "GOOGLE_TTS_API_KEY","\"$googleTtsApiKey\"")
+        manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
     }
 
     buildTypes {
@@ -112,9 +114,16 @@ dependencies {
     // Coil for image loading
     implementation("io.coil-kt:coil-compose:2.7.0")
 
-    // Google Maps
+    // Google Maps + Location
     implementation("com.google.maps.android:maps-compose:6.1.2")
     implementation("com.google.android.gms:play-services-maps:19.0.0")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+
+    // WorkManager for scheduled notifications
+    implementation("androidx.work:work-runtime-ktx:2.9.1")
+
+    // Accompanist permissions helper
+    implementation("com.google.accompanist:accompanist-permissions:0.34.0")
 
     // MediaPipe Tasks GenAI (Gemma on-device inference)
     implementation("com.google.mediapipe:tasks-genai:0.10.16")
