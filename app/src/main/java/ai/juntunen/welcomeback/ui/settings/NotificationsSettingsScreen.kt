@@ -3,7 +3,6 @@ package ai.juntunen.welcomeback.ui.settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -34,7 +33,7 @@ fun NotificationsSettingsScreen(navController: NavController) {
     val profile by appVM.userProfile.collectAsStateWithLifecycle()
 
     Scaffold(
-        containerColor = BackgroundDark,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 title = { Text(lang.t("settings.notifications.title"), color = OnSurface, fontWeight = FontWeight.Bold) },
@@ -43,7 +42,7 @@ fun NotificationsSettingsScreen(navController: NavController) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = null, tint = OnSurface)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = BackgroundDark)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         }
     ) { padding ->
@@ -63,7 +62,7 @@ fun NotificationsSettingsScreen(navController: NavController) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(
-                        modifier = Modifier.size(32.dp).clip(RoundedCornerShape(8.dp))
+                        modifier = Modifier.size(32.dp).clip(MaterialTheme.shapes.small)
                             .background(Color(0xFFFFB74D).copy(alpha = 0.15f)),
                         contentAlignment = Alignment.Center
                     ) {
@@ -148,10 +147,10 @@ fun NotificationsSettingsScreen(navController: NavController) {
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = AccentYellow.copy(alpha = 0.6f),
                         unfocusedBorderColor = Color.White.copy(alpha = 0.15f),
-                        focusedContainerColor = SurfaceVariant.copy(alpha = 0.3f),
-                        unfocusedContainerColor = SurfaceVariant.copy(alpha = 0.3f)
+                        focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerLow
                     ),
-                    shape = RoundedCornerShape(14.dp),
+                    shape = MaterialTheme.shapes.medium,
                     minLines = 2
                 )
             }

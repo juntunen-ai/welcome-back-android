@@ -9,7 +9,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -69,7 +68,7 @@ fun MemoryDetailEditScreen(memoryId: String, onDismiss: () -> Unit) {
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize().background(BackgroundDark)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         // Toolbar
         Row(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
@@ -113,9 +112,9 @@ fun MemoryDetailEditScreen(memoryId: String, onDismiss: () -> Unit) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(160.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(SurfaceVariant.copy(alpha = 0.4f))
-                    .border(1.dp, AccentYellow.copy(alpha = 0.3f), RoundedCornerShape(16.dp))
+                    .clip(MaterialTheme.shapes.large)
+                    .background(MaterialTheme.colorScheme.surfaceContainer)
+                    .border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f), MaterialTheme.shapes.large)
                     .clickable {
                         photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                     },
@@ -127,7 +126,7 @@ fun MemoryDetailEditScreen(memoryId: String, onDismiss: () -> Unit) {
                         model = file,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(16.dp))
+                        modifier = Modifier.fillMaxSize().clip(MaterialTheme.shapes.large)
                     )
                 } else {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -205,7 +204,7 @@ fun MemoryDetailEditScreen(memoryId: String, onDismiss: () -> Unit) {
                         dismissButton = {
                             TextButton(onClick = { showConfirm = false }) { Text(lang.t("common.cancel")) }
                         },
-                        containerColor = SurfaceVariant
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
                     )
                 }
             }
@@ -230,12 +229,12 @@ private fun CategorySelector(selected: MemoryCategory, onSelect: (MemoryCategory
             Box(
                 modifier = Modifier
                     .weight(1f)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(if (isSelected) AccentYellow.copy(alpha = 0.18f) else SurfaceVariant.copy(alpha = 0.4f))
+                    .clip(MaterialTheme.shapes.small)
+                    .background(if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainer)
                     .border(
                         1.dp,
-                        if (isSelected) AccentYellow.copy(alpha = 0.6f) else Color.Transparent,
-                        RoundedCornerShape(10.dp)
+                        if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.6f) else Color.Transparent,
+                        MaterialTheme.shapes.small
                     )
                     .clickable { onSelect(cat) }
                     .padding(vertical = 10.dp),

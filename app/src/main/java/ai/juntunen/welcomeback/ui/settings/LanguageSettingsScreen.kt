@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
@@ -29,7 +28,7 @@ fun LanguageSettingsScreen(navController: NavController) {
     var current by remember { mutableStateOf(LanguageManager.language) }
 
     Scaffold(
-        containerColor = BackgroundDark,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 title = { Text(lang.t("settings.language.title"), color = OnSurface, fontWeight = FontWeight.Bold) },
@@ -38,7 +37,7 @@ fun LanguageSettingsScreen(navController: NavController) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = null, tint = OnSurface)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = BackgroundDark)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         }
     ) { padding ->

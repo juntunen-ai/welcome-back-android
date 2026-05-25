@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -35,7 +34,7 @@ fun MemoriesManagementScreen(navController: NavController) {
     val profile by appVM.userProfile.collectAsStateWithLifecycle()
 
     Scaffold(
-        containerColor = BackgroundDark,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 title = { Text(lang.t("settings.memories.title"), color = OnSurface, fontWeight = FontWeight.Bold) },
@@ -44,7 +43,7 @@ fun MemoriesManagementScreen(navController: NavController) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = null, tint = OnSurface)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = BackgroundDark)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         },
         floatingActionButton = {
@@ -94,8 +93,8 @@ private fun MemoryManagementRow(memory: Memory, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(14.dp))
-            .background(SurfaceVariant.copy(alpha = 0.4f))
+            .clip(MaterialTheme.shapes.medium)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
             .clickable { onClick() }
             .padding(14.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -110,7 +109,7 @@ private fun MemoryManagementRow(memory: Memory, onClick: () -> Unit) {
         Box(
             modifier = Modifier
                 .size(40.dp)
-                .clip(RoundedCornerShape(10.dp))
+                .clip(MaterialTheme.shapes.small)
                 .background(categoryColor.copy(alpha = 0.15f)),
             contentAlignment = Alignment.Center
         ) {

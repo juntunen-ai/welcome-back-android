@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -38,7 +37,7 @@ fun PlaceDetailScreen(place: Place, onBack: () -> Unit) {
 
     val hasCoords = place.latitude != 0.0 || place.longitude != 0.0
 
-    Column(modifier = Modifier.fillMaxSize().background(BackgroundDark)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
 
         // Hero image
         Box(modifier = Modifier.fillMaxWidth().height(280.dp)) {
@@ -70,7 +69,7 @@ fun PlaceDetailScreen(place: Place, onBack: () -> Unit) {
             Box(
                 modifier = Modifier.fillMaxSize()
                     .background(Brush.verticalGradient(
-                        colors = listOf(Color.Transparent, BackgroundDark),
+                        colors = listOf(Color.Transparent, MaterialTheme.colorScheme.background),
                         startY = 160f
                     ))
             )
@@ -107,8 +106,8 @@ fun PlaceDetailScreen(place: Place, onBack: () -> Unit) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(SurfaceVariant.copy(alpha = 0.4f))
+                        .clip(MaterialTheme.shapes.large)
+                        .background(MaterialTheme.colorScheme.surfaceContainer)
                         .padding(16.dp)
                 ) {
                     Text(
@@ -134,7 +133,7 @@ fun PlaceDetailScreen(place: Place, onBack: () -> Unit) {
                     border = ButtonDefaults.outlinedButtonBorder.copy(
                         brush = androidx.compose.ui.graphics.SolidColor(AccentYellow.copy(alpha = 0.5f))
                     ),
-                    shape = RoundedCornerShape(14.dp)
+                    shape = MaterialTheme.shapes.medium
                 ) {
                     Icon(Icons.Filled.Map, contentDescription = null, modifier = Modifier.size(18.dp))
                     Spacer(Modifier.width(8.dp))

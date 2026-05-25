@@ -3,7 +3,6 @@ package ai.juntunen.welcomeback.ui.settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
@@ -34,7 +33,7 @@ fun VoiceModeSettingsScreen(navController: NavController) {
     val profile by appVM.userProfile.collectAsStateWithLifecycle()
 
     Scaffold(
-        containerColor = BackgroundDark,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 title = { Text(lang.t("settings.voice.title"), color = OnSurface, fontWeight = FontWeight.Bold) },
@@ -43,7 +42,7 @@ fun VoiceModeSettingsScreen(navController: NavController) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = null, tint = OnSurface)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = BackgroundDark)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         }
     ) { padding ->
@@ -103,7 +102,7 @@ private fun VoiceModeRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
-            modifier = Modifier.size(32.dp).clip(RoundedCornerShape(8.dp))
+            modifier = Modifier.size(32.dp).clip(MaterialTheme.shapes.small)
                 .background(iconTint.copy(alpha = 0.15f)),
             contentAlignment = Alignment.Center
         ) {

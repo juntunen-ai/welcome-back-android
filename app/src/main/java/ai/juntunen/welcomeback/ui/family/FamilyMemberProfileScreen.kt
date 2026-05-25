@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Pause
@@ -72,7 +71,7 @@ fun FamilyMemberProfileScreen(member: FamilyMember, onBack: () -> Unit) {
         label = "pulse-scale"
     )
 
-    Box(modifier = Modifier.fillMaxSize().background(BackgroundDark)) {
+    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
 
             // ── Photo pager ──────────────────────────────────────────
@@ -254,9 +253,9 @@ private fun SectionCard(title: String, icon: Boolean = false, content: @Composab
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
-            .background(SurfaceVariant.copy(alpha = 0.4f))
-            .border(1.dp, Color.White.copy(alpha = 0.06f), RoundedCornerShape(16.dp))
+            .clip(MaterialTheme.shapes.large)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .border(1.dp, Color.White.copy(alpha = 0.06f), MaterialTheme.shapes.large)
             .padding(16.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {

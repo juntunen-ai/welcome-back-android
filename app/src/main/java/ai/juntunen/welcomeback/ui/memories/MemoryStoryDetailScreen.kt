@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -50,7 +49,7 @@ fun MemoryStoryDetailScreen(memory: Memory, onBack: () -> Unit) {
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize().background(BackgroundDark)) {
+    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
 
         Column(modifier = Modifier.fillMaxSize()) {
             // Hero image or colour band
@@ -76,7 +75,7 @@ fun MemoryStoryDetailScreen(memory: Memory, onBack: () -> Unit) {
                 Box(
                     modifier = Modifier.fillMaxSize()
                         .background(Brush.verticalGradient(
-                            colors = listOf(Color.Transparent, BackgroundDark),
+                            colors = listOf(Color.Transparent, MaterialTheme.colorScheme.background),
                             startY = 140f
                         ))
                 )
@@ -122,8 +121,8 @@ fun MemoryStoryDetailScreen(memory: Memory, onBack: () -> Unit) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clip(RoundedCornerShape(16.dp))
-                            .background(SurfaceVariant.copy(alpha = 0.4f))
+                            .clip(MaterialTheme.shapes.large)
+                            .background(MaterialTheme.colorScheme.surfaceContainer)
                             .padding(16.dp)
                     ) {
                         Text(
@@ -145,7 +144,7 @@ fun MemoryStoryDetailScreen(memory: Memory, onBack: () -> Unit) {
             Box(
                 modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter)
                     .background(Brush.verticalGradient(
-                        listOf(Color.Transparent, BackgroundDark.copy(alpha = 0.95f))
+                        listOf(Color.Transparent, MaterialTheme.colorScheme.background.copy(alpha = 0.95f))
                     ))
                     .padding(bottom = 32.dp, top = 40.dp),
                 contentAlignment = Alignment.Center
@@ -160,7 +159,7 @@ fun MemoryStoryDetailScreen(memory: Memory, onBack: () -> Unit) {
                         containerColor = AccentYellow,
                         contentColor = Color.Black
                     ),
-                    shape = RoundedCornerShape(25.dp)
+                    shape = CircleShape
                 ) {
                     Text(
                         text = if (isPlaying) lang.t("family.profile.stop") else lang.t("memories.story.hear"),
@@ -184,7 +183,7 @@ private fun CategoryBadge(category: MemoryCategory) {
     }
     Box(
         modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
+            .clip(MaterialTheme.shapes.small)
             .background(color.copy(alpha = 0.15f))
             .padding(horizontal = 10.dp, vertical = 4.dp)
     ) {

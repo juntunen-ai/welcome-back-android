@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material3.*
@@ -28,7 +27,7 @@ fun MusicScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundDark)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         // Header
         Box(
@@ -109,7 +108,7 @@ fun MusicScreen() {
                     disabledContainerColor = Color(0xFF1DB954).copy(alpha = 0.25f),
                     disabledContentColor = Color(0xFF1DB954).copy(alpha = 0.5f)
                 ),
-                shape = RoundedCornerShape(14.dp)
+                shape = MaterialTheme.shapes.medium
             ) {
                 Text(lang.t("music.connect.spotify"), fontWeight = FontWeight.Bold, fontSize = 16.sp)
             }

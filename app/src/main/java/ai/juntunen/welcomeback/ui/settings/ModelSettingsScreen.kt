@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -30,7 +29,7 @@ fun ModelSettingsScreen(navController: NavController) {
     val lang = LanguageManager
 
     Scaffold(
-        containerColor = BackgroundDark,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 title = { Text(lang.t("settings.model.title"), color = OnSurface, fontWeight = FontWeight.Bold) },
@@ -39,7 +38,7 @@ fun ModelSettingsScreen(navController: NavController) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = null, tint = OnSurface)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = BackgroundDark)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         }
     ) { padding ->
@@ -87,8 +86,8 @@ fun ModelSettingsScreen(navController: NavController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(SurfaceVariant.copy(alpha = 0.4f))
+                    .clip(MaterialTheme.shapes.large)
+                    .background(MaterialTheme.colorScheme.surfaceContainer)
                     .padding(16.dp)
             ) {
                 Column {
@@ -106,8 +105,8 @@ fun ModelSettingsScreen(navController: NavController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(SurfaceVariant.copy(alpha = 0.25f))
+                    .clip(MaterialTheme.shapes.large)
+                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
                     .padding(16.dp)
             ) {
                 Column {
@@ -117,8 +116,8 @@ fun ModelSettingsScreen(navController: NavController) {
                         Spacer(Modifier.width(8.dp))
                         Box(
                             modifier = Modifier
-                                .clip(RoundedCornerShape(6.dp))
-                                .background(AccentYellow.copy(alpha = 0.15f))
+                                .clip(MaterialTheme.shapes.extraSmall)
+                                .background(MaterialTheme.colorScheme.primaryContainer)
                                 .padding(horizontal = 6.dp, vertical = 2.dp)
                         ) {
                             Text(lang.t("settings.model.coming.soon"),

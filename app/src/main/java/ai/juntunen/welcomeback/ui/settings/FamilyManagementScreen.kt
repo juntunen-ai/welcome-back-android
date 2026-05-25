@@ -31,7 +31,7 @@ fun FamilyManagementScreen(navController: NavController) {
     val profile by appVM.userProfile.collectAsStateWithLifecycle()
 
     Scaffold(
-        containerColor = BackgroundDark,
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TopAppBar(
                 title = { Text(lang.t("settings.family.title"), color = OnSurface, fontWeight = FontWeight.Bold) },
@@ -45,7 +45,7 @@ fun FamilyManagementScreen(navController: NavController) {
                         Text(lang.t("common.add"), color = AccentYellow, fontWeight = FontWeight.Bold)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = BackgroundDark)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background)
             )
         },
         floatingActionButton = {

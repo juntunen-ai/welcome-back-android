@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -60,8 +59,8 @@ fun SettingsScreen(navController: NavController, onReset: () -> Unit = {}) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
-                    .clip(RoundedCornerShape(20.dp))
-                    .background(SurfaceVariant.copy(alpha = 0.5f))
+                    .clip(MaterialTheme.shapes.extraLarge)
+                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
                     .clickable { navController.navigate("settings/personal") }
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -246,68 +245,80 @@ fun SettingsSectionHeader(title: String) {
     )
 }
 
+/**
+ * Rounded card container for a group of [SettingsRow] items.
+ * Uses [MaterialTheme.colorScheme.surfaceContainerHigh] — the correct M3 token
+ * for an elevated card on a dark background.
+ */
 @Composable
 fun SettingsGroup(content: @Composable ColumnScope.() -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .background(SurfaceVariant.copy(alpha = 0.4f)),
+            .clip(MaterialTheme.shapes.large)
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh),
         content = content
     )
 }
 
+/**
+ * M3 [ListItem]-based settings row.
+ *
+ * Using [ListItem] instead of a hand-rolled Row gives:
+ *   • Correct M3 padding / minimum touch-target sizing.
+ *   • Automatic semantic content description slots.
+ *   • Consistent leading / trailing content alignment.
+ */
 @Composable
 fun SettingsRow(
     icon: ImageVector,
     iconTint: Color,
     title: String,
     subtitle: String? = null,
-    titleColor: Color = OnSurface,
+    titleColor: Color = MaterialTheme.colorScheme.onSurface,
     trailingContent: (@Composable () -> Unit)? = null,
     onClick: (() -> Unit)? = null
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier)
-            .padding(horizontal = 16.dp, vertical = 14.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .size(32.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(iconTint.copy(alpha = 0.15f)),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(icon, contentDescription = null, tint = iconTint, modifier = Modifier.size(18.dp))
-        }
-        Spacer(Modifier.width(12.dp))
-        Column(Modifier.weight(1f)) {
-            Text(text = title, color = titleColor, fontSize = 15.sp)
-            if (subtitle != null) {
-                Text(text = subtitle, color = OnSurface.copy(alpha = 0.45f), fontSize = 12.sp)
+    ListItem(
+        headlineContent = {
+            Text(title, color = titleColor, style = MaterialTheme.typography.bodyLarge)
+        },
+        supportingContent = subtitle?.let { sub ->
+            { Text(sub, style = MaterialTheme.typography.bodyMedium) }
+        },
+        leadingContent = {
+            Box(
+                modifier = Modifier
+                    .size(32.dp)
+                    .clip(MaterialTheme.shapes.small)
+                    .background(iconTint.copy(alpha = 0.15f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(icon, contentDescription = null, tint = iconTint, modifier = Modifier.size(18.dp))
             }
-        }
-        if (trailingContent != null) {
-            trailingContent()
-        } else if (onClick != null) {
-            Icon(
-                Icons.Filled.ChevronRight,
-                contentDescription = null,
-                tint = OnSurface.copy(alpha = 0.25f),
-                modifier = Modifier.size(18.dp)
-            )
-        }
-    }
+        },
+        trailingContent = trailingContent ?: if (onClick != null) {
+            {
+                Icon(
+                    Icons.Filled.ChevronRight,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                    modifier = Modifier.size(18.dp)
+                )
+            }
+        } else null,
+        modifier = Modifier.then(
+            if (onClick != null) Modifier.clickable { onClick() } else Modifier
+        ),
+        colors = ListItemDefaults.colors(containerColor = androidx.compose.ui.graphics.Color.Transparent)
+    )
 }
 
 @Composable
 fun SettingsDivider() {
     HorizontalDivider(
-        modifier = Modifier.padding(start = 60.dp),
-        color = Color.White.copy(alpha = 0.05f)
+        modifier  = Modifier.padding(start = 60.dp),
+        color     = MaterialTheme.colorScheme.outlineVariant
     )
 }

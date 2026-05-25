@@ -2,7 +2,6 @@ package ai.juntunen.welcomeback.ui
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,7 +10,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -28,10 +26,7 @@ import ai.juntunen.welcomeback.ui.listening.ListeningScreen
 import ai.juntunen.welcomeback.ui.memories.*
 import ai.juntunen.welcomeback.ui.music.MusicScreen
 import ai.juntunen.welcomeback.ui.settings.*
-import ai.juntunen.welcomeback.ui.theme.AccentYellow
 import ai.juntunen.welcomeback.ui.theme.BackgroundDark
-import ai.juntunen.welcomeback.ui.theme.OnSurface
-import ai.juntunen.welcomeback.ui.theme.SurfaceVariant
 
 private data class TabItem(
     val tab: AppTab,
@@ -76,33 +71,24 @@ fun MainAppScreen(onReset: () -> Unit = {}) {
     }
 
     Scaffold(
-        containerColor = BackgroundDark,
+        containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
-            NavigationBar(
-                containerColor = Color(0xFF111111),
-                contentColor = OnSurface
-            ) {
+            // surfaceContainerLowest keeps the bar very dark and respects
+            // future theme changes without a hard-coded hex colour.
+            NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest) {
                 TABS.forEach { item ->
                     val selected = selectedTab == item.tab
                     NavigationBarItem(
                         selected = selected,
-                        onClick = { appVM.selectTab(item.tab) },
-                        icon = {
-                            Icon(
-                                imageVector = item.icon,
-                                contentDescription = lang.t(item.labelKey),
-                                tint = if (selected) AccentYellow else OnSurface.copy(alpha = 0.45f)
-                            )
-                        },
-                        label = {
-                            Text(
-                                text = lang.t(item.labelKey),
-                                color = if (selected) AccentYellow else OnSurface.copy(alpha = 0.45f),
-                                style = MaterialTheme.typography.labelSmall
-                            )
-                        },
+                        onClick  = { appVM.selectTab(item.tab) },
+                        icon  = { Icon(item.icon, contentDescription = lang.t(item.labelKey)) },
+                        label = { Text(lang.t(item.labelKey), style = MaterialTheme.typography.labelSmall) },
                         colors = NavigationBarItemDefaults.colors(
-                            indicatorColor = AccentYellow.copy(alpha = 0.12f)
+                            selectedIconColor   = MaterialTheme.colorScheme.primary,
+                            selectedTextColor   = MaterialTheme.colorScheme.primary,
+                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            indicatorColor      = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
                         )
                     )
                 }

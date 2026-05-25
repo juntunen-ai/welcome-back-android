@@ -9,7 +9,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -67,7 +66,7 @@ fun PlaceDetailEditScreen(placeId: String, onDismiss: () -> Unit) {
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize().background(BackgroundDark)) {
+    Column(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         // Toolbar
         Row(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
@@ -111,9 +110,9 @@ fun PlaceDetailEditScreen(placeId: String, onDismiss: () -> Unit) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(160.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(SurfaceVariant.copy(alpha = 0.4f))
-                    .border(1.dp, AccentYellow.copy(alpha = 0.3f), RoundedCornerShape(16.dp))
+                    .clip(MaterialTheme.shapes.large)
+                    .background(MaterialTheme.colorScheme.surfaceContainer)
+                    .border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f), MaterialTheme.shapes.large)
                     .clickable {
                         photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                     },
@@ -125,7 +124,7 @@ fun PlaceDetailEditScreen(placeId: String, onDismiss: () -> Unit) {
                         model = file,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(16.dp))
+                        modifier = Modifier.fillMaxSize().clip(MaterialTheme.shapes.large)
                     )
                 } else {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -186,7 +185,7 @@ fun PlaceDetailEditScreen(placeId: String, onDismiss: () -> Unit) {
                         dismissButton = {
                             TextButton(onClick = { showConfirm = false }) { Text(lang.t("common.cancel")) }
                         },
-                        containerColor = SurfaceVariant
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
                     )
                 }
             }

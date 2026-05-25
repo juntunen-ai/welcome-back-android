@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material3.*
@@ -40,7 +39,7 @@ fun FamilyScreen(onMemberTap: (FamilyMember) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundDark)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         // Header
         Box(
@@ -94,8 +93,8 @@ fun FamilyAlbumCard(member: FamilyMember, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
-            .background(SurfaceVariant)
+            .clip(MaterialTheme.shapes.extraLarge)
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .clickable { onClick() }
     ) {
         // Hero image
@@ -158,7 +157,7 @@ fun RelationshipBadge(relationship: String) {
     if (relationship.isBlank()) return
     Box(
         modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
+            .clip(MaterialTheme.shapes.small)
             .background(AccentYellow.copy(alpha = 0.9f))
             .padding(horizontal = 8.dp, vertical = 3.dp)
     ) {
@@ -177,8 +176,8 @@ fun FamilyMemberRow(member: FamilyMember, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(14.dp))
-            .background(SurfaceVariant.copy(alpha = 0.4f))
+            .clip(MaterialTheme.shapes.medium)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
             .clickable { onClick() }
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically

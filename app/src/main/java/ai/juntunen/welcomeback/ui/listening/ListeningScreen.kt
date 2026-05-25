@@ -6,7 +6,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -64,7 +63,7 @@ fun ListeningScreen(onDismiss: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(BackgroundDark.copy(alpha = 0.97f))
+            .background(MaterialTheme.colorScheme.background.copy(alpha = 0.97f))
     ) {
         Column(
             modifier = Modifier
@@ -153,8 +152,8 @@ fun ListeningScreen(onDismiss: () -> Unit) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(SurfaceVariant.copy(alpha = 0.4f))
+                        .clip(MaterialTheme.shapes.large)
+                        .background(MaterialTheme.colorScheme.surfaceContainer)
                         .padding(16.dp)
                 ) {
                     Text(
@@ -173,9 +172,9 @@ fun ListeningScreen(onDismiss: () -> Unit) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(AccentYellow.copy(alpha = 0.08f))
-                        .border(1.dp, AccentYellow.copy(alpha = 0.18f), RoundedCornerShape(16.dp))
+                        .clip(MaterialTheme.shapes.large)
+                        .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f))
+                        .border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.25f), MaterialTheme.shapes.large)
                         .padding(16.dp)
                 ) {
                     Text(
@@ -216,7 +215,7 @@ fun ListeningScreen(onDismiss: () -> Unit) {
                         containerColor = if (isListening) Color(0xFFFF6B6B) else AccentYellow,
                         contentColor = Color.Black
                     ),
-                    shape = RoundedCornerShape(14.dp)
+                    shape = MaterialTheme.shapes.medium
                 ) {
                     Icon(
                         if (isListening) Icons.Filled.Stop else Icons.Filled.Mic,
@@ -241,7 +240,7 @@ fun ListeningScreen(onDismiss: () -> Unit) {
                 .padding(16.dp)
                 .align(Alignment.TopEnd)
                 .clip(CircleShape)
-                .background(SurfaceVariant.copy(alpha = 0.6f))
+                .background(MaterialTheme.colorScheme.surfaceContainerHigh)
         ) {
             Icon(Icons.Filled.Close, contentDescription = lang.t("common.cancel"), tint = OnSurface)
         }
