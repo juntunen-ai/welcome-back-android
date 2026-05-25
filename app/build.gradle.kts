@@ -106,6 +106,9 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.12")
 
+    // OkHttp directly for WebSocket (Gemini Live)
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
     // Kotlin serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.2")
 

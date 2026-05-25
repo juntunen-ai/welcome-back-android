@@ -51,6 +51,12 @@ data class Place(
 enum class VoiceMode { CLOUD, LOCAL }
 
 @Serializable
+enum class AIModel(val displayName: String, val apiModel: String) {
+    GEMINI_FLASH("Gemini 2.0 Flash", "gemini-2.0-flash"),
+    GEMINI_PRO("Gemini 2.5 Pro", "gemini-2.5-pro")
+}
+
+@Serializable
 enum class NotificationTime(val hour: Int, val minute: Int) {
     MORNING(9, 0),
     NOON(12, 0),
@@ -73,6 +79,7 @@ data class UserProfile(
     val memories: List<Memory> = emptyList(),
     val places: List<Place> = emptyList(),
     val preferredVoiceMode: VoiceMode = VoiceMode.LOCAL,
+    val preferredAIModel: AIModel = AIModel.GEMINI_FLASH,
     val isVoiceCloningEnabled: Boolean = false,
     val notificationsEnabled: Boolean = false,
     val notificationTopics: String = "",

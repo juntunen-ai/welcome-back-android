@@ -1,10 +1,14 @@
 package ai.juntunen.welcomeback
 
 import android.app.Application
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.Intent
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import ai.juntunen.welcomeback.data.*
 import ai.juntunen.welcomeback.data.UserProfileRepository
+import ai.juntunen.welcomeback.widget.WelcomeBackWidget
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -52,6 +56,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     fun updateBiography(bio: String)                 = update { it.copy(biography = bio) }
     fun updateCurrentLocation(loc: String)           = update { it.copy(currentLocation = loc) }
     fun updatePreferredVoiceMode(mode: VoiceMode)    = update { it.copy(preferredVoiceMode = mode) }
+    fun updatePreferredAIModel(model: AIModel)       = update { it.copy(preferredAIModel = model) }
     fun updateNotificationsEnabled(enabled: Boolean) = update { it.copy(notificationsEnabled = enabled) }
     fun updateNotificationTimes(times: List<NotificationTime>) = update { it.copy(notificationTimes = times) }
     fun updateNotificationTopics(topics: String)     = update { it.copy(notificationTopics = topics) }
@@ -115,6 +120,21 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun update(transform: (UserProfile) -> UserProfile) {
         val next = _userProfile.updateAndGet(transform)
-        viewModelScope.launch { repo.save(next) }
+        viewModelScope.launch {
+            repo.save(next)
+            // Keep widget in sync with user name
+            val context = getApplication<Application>()
+            val prefs = context.getSharedPreferences("welcomeback_widget", android.content.Context.MODE_PRIVATE)
+            prefs.edit().putString("user_name", next.name).apply()
+            val manager = AppWidgetManager.getInstance(context)
+            val ids = manager.getAppWidgetIds(ComponentName(context, WelcomeBackWidget::class.java))
+            if (ids.isNotEmpty()) {
+                val intent = Intent(context, WelcomeBackWidget::class.java).apply {
+                    action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+                    putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+                }
+                context.sendBroadcast(intent)
+            }
+        }
     }
 }

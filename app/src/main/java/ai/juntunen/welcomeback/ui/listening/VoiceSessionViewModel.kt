@@ -43,6 +43,7 @@ class VoiceSessionViewModel(application: Application) : AndroidViewModel(applica
     val error: StateFlow<String?> = _error.asStateFlow()
 
     private var listenJob: Job? = null
+    private val conversationHistory = mutableListOf<Pair<String, String>>()
 
     enum class Phase { IDLE, LISTENING, THINKING, SPEAKING, ERROR }
 
@@ -99,6 +100,7 @@ class VoiceSessionViewModel(application: Application) : AndroidViewModel(applica
         _reply.value = ""
         _error.value = null
         _phase.value = Phase.IDLE
+        conversationHistory.clear()
     }
 
     // ─────────────────────────────────────────────────────────────────
@@ -109,8 +111,18 @@ class VoiceSessionViewModel(application: Application) : AndroidViewModel(applica
         listenJob?.cancel()
         listenJob = viewModelScope.launch {
             _phase.value = Phase.THINKING
-            val aiReply = GeminiService.chat(text, profile, language)
+            val aiReply = GeminiService.chat(
+                userMessage = text,
+                profile = profile,
+                language = language,
+                history = conversationHistory.toList()
+            )
             _reply.value = aiReply
+            // Store in history, trim to last 10 exchanges
+            conversationHistory.add(Pair(text, aiReply))
+            if (conversationHistory.size > 10) {
+                conversationHistory.removeAt(0)
+            }
             _phase.value = Phase.SPEAKING
             ttsService.speak(aiReply)
             _phase.value = Phase.IDLE

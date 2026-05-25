@@ -1,12 +1,14 @@
 package ai.juntunen.welcomeback.ui.settings
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -19,14 +21,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import ai.juntunen.welcomeback.AppViewModel
 import ai.juntunen.welcomeback.LanguageManager
+import ai.juntunen.welcomeback.data.AIModel
 import ai.juntunen.welcomeback.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ModelSettingsScreen(navController: NavController) {
     val lang = LanguageManager
+    val appVM: AppViewModel = viewModel()
+    val profile by appVM.userProfile.collectAsStateWithLifecycle()
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -76,11 +84,48 @@ fun ModelSettingsScreen(navController: NavController) {
                 textAlign = TextAlign.Center
             )
             Text(
-                text = "Gemini 2.0 Flash",
+                text = profile.preferredAIModel.displayName,
                 color = AccentYellow, fontSize = 17.sp, fontWeight = FontWeight.SemiBold
             )
 
             Spacer(Modifier.height(24.dp))
+
+            // ── AI Model picker ──────────────────────────────────────────────
+            SettingsSectionHeader(lang.t("settings.model.active"))
+
+            SettingsGroup {
+                AIModel.entries.forEachIndexed { idx, model ->
+                    val isSelected = profile.preferredAIModel == model
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { appVM.updatePreferredAIModel(model) }
+                            .padding(horizontal = 16.dp, vertical = 14.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(Modifier.weight(1f)) {
+                            Text(
+                                text = model.displayName,
+                                color = OnSurface,
+                                fontSize = 15.sp,
+                                fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal
+                            )
+                            Text(
+                                text = model.apiModel,
+                                color = OnSurface.copy(alpha = 0.45f),
+                                fontSize = 12.sp
+                            )
+                        }
+                        if (isSelected) {
+                            Icon(Icons.Filled.Check, contentDescription = null,
+                                tint = AccentYellow, modifier = Modifier.size(20.dp))
+                        }
+                    }
+                    if (idx < AIModel.entries.lastIndex) SettingsDivider()
+                }
+            }
+
+            Spacer(Modifier.height(20.dp))
 
             // Cloud mode card
             Box(

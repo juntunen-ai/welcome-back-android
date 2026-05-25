@@ -213,14 +213,21 @@ object Strings {
         "music.coming.soon"     to "Spotify integration is coming in v0.5",
 
         // Listening / voice session
-        "listening.title"     to "I'm Listening",
-        "listening.hint"      to "Tap the button below to start talking",
-        "listening.listening" to "Listening…",
-        "listening.thinking"  to "Thinking…",
-        "listening.speaking"  to "Speaking…",
-        "listening.error"     to "Something went wrong",
-        "listening.stop"      to "Stop",
-        "listening.start"     to "Start Talking",
+        "listening.title"       to "I'm Listening",
+        "listening.hint"        to "Tap the button below to start talking",
+        "listening.listening"   to "Listening…",
+        "listening.thinking"    to "Thinking…",
+        "listening.speaking"    to "Speaking…",
+        "listening.error"       to "Something went wrong",
+        "listening.stop"        to "Stop",
+        "listening.start"       to "Start Talking",
+        "listening.end"         to "End",
+        "listening.connecting"  to "Connecting…",
+        "listening.ready"       to "I'm listening",
+        "listening.go_on"       to "Go on…",
+        "listening.moment"      to "One moment…",
+        "listening.response"    to "Speaking…",
+        "listening.ended"       to "Session ended",
 
         // Settings
         "settings.title"               to "Settings",
@@ -322,11 +329,40 @@ object Strings {
         // Model settings
         "settings.model.title"        to "AI Model",
         "settings.model.current"      to "Currently using",
+        "settings.model.active"       to "Active Model",
         "settings.model.cloud.title"  to "Gemini 2.0 Flash (Cloud)",
         "settings.model.cloud.body"   to "A fast, conversational AI model from Google. Requires an internet connection. Your messages are processed on Google's servers.",
         "settings.model.local.title"  to "On-Device Model",
         "settings.model.local.body"   to "A private AI that runs entirely on your phone — no internet required. Download coming in v0.3.",
         "settings.model.coming.soon"  to "v0.3",
+
+        // Licenses
+        "settings.licenses" to "Open-Source Licenses",
+
+        // Onboarding — Permissions
+        "onboarding.permissions.title"        to "App Permissions",
+        "onboarding.permissions.subtitle"     to "Welcome Back works best with these permissions. They are optional but recommended.",
+        "onboarding.permissions.mic.title"    to "Microphone",
+        "onboarding.permissions.mic.subtitle" to "Required for voice conversations with the AI companion.",
+        "onboarding.permissions.music.title"  to "Music Library",
+        "onboarding.permissions.music.subtitle" to "Used to play your personal music collection in the Music tab.",
+        "onboarding.permissions.granted"      to "Granted",
+        "onboarding.permissions.tap_to_grant" to "Tap to grant",
+
+        // Music screen
+        "music.memorylane.subtitle" to "these are your favorite songs",
+        "music.library.header"      to "YOUR LIBRARY",
+        "music.mixes.header"        to "MEMORY MIXES",
+        "music.library.empty"       to "No songs found on your device.",
+        "music.connect.title"       to "Connect Your Music",
+        "music.connect.subtitle"    to "Allow access to play songs from your device library.",
+        "music.connect.button"      to "Allow Access",
+        "music.denied.title"        to "Music Access Denied",
+        "music.denied.body"         to "Go to System Settings → Apps → Welcome Back → Permissions to allow music access.",
+        "music.mix.1"               to "Morning Calm",
+        "music.mix.2"               to "Classic Favourites",
+        "music.mix.3"               to "Family Moments",
+        "music.mix.4"               to "Relaxation",
     )
 
     // ── Finnish ──────────────────────────────────────────────────────────────
@@ -533,14 +569,21 @@ object Strings {
         "music.coming.soon"     to "Spotify-integraatio tulee versioon v0.5",
 
         // Kuuntelu / äänipuhelu
-        "listening.title"     to "Kuuntelen",
-        "listening.hint"      to "Napauta nappia aloittaaksesi puhumisen",
-        "listening.listening" to "Kuunnellaan…",
-        "listening.thinking"  to "Mietitään…",
-        "listening.speaking"  to "Puhutaan…",
-        "listening.error"     to "Jokin meni pieleen",
-        "listening.stop"      to "Pysäytä",
-        "listening.start"     to "Aloita puhuminen",
+        "listening.title"       to "Kuuntelen",
+        "listening.hint"        to "Napauta nappia aloittaaksesi puhumisen",
+        "listening.listening"   to "Kuunnellaan…",
+        "listening.thinking"    to "Mietitään…",
+        "listening.speaking"    to "Puhutaan…",
+        "listening.error"       to "Jokin meni pieleen",
+        "listening.stop"        to "Pysäytä",
+        "listening.start"       to "Aloita puhuminen",
+        "listening.end"         to "Lopeta",
+        "listening.connecting"  to "Yhdistetään…",
+        "listening.ready"       to "Kuuntelen",
+        "listening.go_on"       to "Jatka…",
+        "listening.moment"      to "Hetki…",
+        "listening.response"    to "Puhutaan…",
+        "listening.ended"       to "Istunto päättyi",
 
         // Asetukset
         "settings.title"               to "Asetukset",
@@ -642,10 +685,39 @@ object Strings {
         // Mallin asetukset
         "settings.model.title"        to "Tekoälymalli",
         "settings.model.current"      to "Käytössä tällä hetkellä",
+        "settings.model.active"       to "Aktiivinen malli",
         "settings.model.cloud.title"  to "Gemini 2.0 Flash (Pilvi)",
         "settings.model.cloud.body"   to "Nopea keskusteleva tekoälymalli Googlelta. Vaatii internetyhteyden. Viestisi käsitellään Googlen palvelimilla.",
         "settings.model.local.title"  to "Laitemalli",
         "settings.model.local.body"   to "Yksityinen tekoäly, joka toimii kokonaan puhelimellasi — ei internet-yhteyttä tarvita. Lataus tulee v0.3:ssa.",
         "settings.model.coming.soon"  to "v0.3",
+
+        // Lisenssit
+        "settings.licenses" to "Avoimen lähdekoodin lisenssit",
+
+        // Onboarding — Käyttöoikeudet
+        "onboarding.permissions.title"          to "Sovelluksen käyttöoikeudet",
+        "onboarding.permissions.subtitle"       to "Welcome Back toimii parhaiten näiden käyttöoikeuksien kanssa. Ne ovat valinnaisia mutta suositeltavia.",
+        "onboarding.permissions.mic.title"      to "Mikrofoni",
+        "onboarding.permissions.mic.subtitle"   to "Tarvitaan äänipuheluihin tekoälykumppanin kanssa.",
+        "onboarding.permissions.music.title"    to "Musiikkikirjasto",
+        "onboarding.permissions.music.subtitle" to "Käytetään henkilökohtaisen musiikkikirjastosi toistamiseen Musiikki-välilehdellä.",
+        "onboarding.permissions.granted"        to "Myönnetty",
+        "onboarding.permissions.tap_to_grant"   to "Napauta myöntääksesi",
+
+        // Musiikkinäyttö
+        "music.memorylane.subtitle" to "nämä ovat suosikkikappaleesi",
+        "music.library.header"      to "KIRJASTOSI",
+        "music.mixes.header"        to "MUISTOMIKSIT",
+        "music.library.empty"       to "Laitteeltasi ei löytynyt kappaleita.",
+        "music.connect.title"       to "Yhdistä musiikkisi",
+        "music.connect.subtitle"    to "Anna lupa toistaa kappaleita laitekirjastostasi.",
+        "music.connect.button"      to "Anna lupa",
+        "music.denied.title"        to "Musiikkipääsy estetty",
+        "music.denied.body"         to "Siirry Järjestelmäasetukset → Sovellukset → Welcome Back → Käyttöoikeudet salliaksesi musiikkipääsyn.",
+        "music.mix.1"               to "Aamuhetki",
+        "music.mix.2"               to "Klassiset suosikit",
+        "music.mix.3"               to "Perhehetket",
+        "music.mix.4"               to "Rentoutuminen",
     )
 }

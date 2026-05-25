@@ -23,9 +23,9 @@ import ai.juntunen.welcomeback.ui.theme.AccentYellow
 import ai.juntunen.welcomeback.ui.theme.BackgroundDark
 import ai.juntunen.welcomeback.ui.theme.OnSurface
 
-/** Logical order of the 13 onboarding steps. */
+/** Logical order of the 14 onboarding steps. */
 enum class OnboardingStep {
-    WELCOME, LANGUAGE,
+    WELCOME, LANGUAGE, PERMISSIONS,
     MODEL_DOWNLOAD,
     PROFILE, PHOTO,
     ADD_FAMILY, FAMILY_TIP,
@@ -42,7 +42,8 @@ fun OnboardingContainerScreen(onFinish: () -> Unit = {}) {
     fun advance() {
         step = when (step) {
             OnboardingStep.WELCOME        -> OnboardingStep.LANGUAGE
-            OnboardingStep.LANGUAGE       -> OnboardingStep.MODEL_DOWNLOAD
+            OnboardingStep.LANGUAGE       -> OnboardingStep.PERMISSIONS
+            OnboardingStep.PERMISSIONS    -> OnboardingStep.MODEL_DOWNLOAD
             OnboardingStep.MODEL_DOWNLOAD -> OnboardingStep.PROFILE
             OnboardingStep.PROFILE        -> OnboardingStep.PHOTO
             OnboardingStep.PHOTO          -> OnboardingStep.ADD_FAMILY
@@ -87,6 +88,7 @@ fun OnboardingContainerScreen(onFinish: () -> Unit = {}) {
             when (current) {
                 OnboardingStep.WELCOME        -> OnboardingWelcomeScreen(onContinue = ::advance)
                 OnboardingStep.LANGUAGE       -> OnboardingLanguageScreen(onContinue = ::advance)
+                OnboardingStep.PERMISSIONS    -> OnboardingPermissionsScreen(onContinue = ::advance)
                 OnboardingStep.MODEL_DOWNLOAD -> OnboardingModelDownloadScreen(onContinue = ::advance)
                 OnboardingStep.PROFILE        -> OnboardingProfileScreen(onContinue = ::advance)
                 OnboardingStep.PHOTO          -> OnboardingPhotoScreen(onContinue = ::advance)

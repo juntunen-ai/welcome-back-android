@@ -182,6 +182,13 @@ fun SettingsScreen(navController: NavController, onReset: () -> Unit = {}) {
                     title = lang.t("settings.terms"),
                     onClick = { navController.navigate("settings/legal/terms") }
                 )
+                SettingsDivider()
+                SettingsRow(
+                    icon = Icons.Filled.Article,
+                    iconTint = OnSurface.copy(alpha = 0.5f),
+                    title = lang.t("settings.licenses"),
+                    onClick = { navController.navigate("settings/licenses") }
+                )
             }
             Spacer(Modifier.height(20.dp))
         }

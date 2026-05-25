@@ -188,6 +188,7 @@ fun MainAppScreen(onReset: () -> Unit = {}) {
             composable("settings/language")      { LanguageSettingsScreen(navController) }
             composable("settings/voiceMode")     { VoiceModeSettingsScreen(navController) }
             composable("settings/model")         { ModelSettingsScreen(navController) }
+            composable("settings/licenses")      { LicensesScreen(navController) }
             composable(
                 route = "settings/legal/{document}",
                 arguments = listOf(navArgument("document") { type = NavType.StringType })

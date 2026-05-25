@@ -4,13 +4,10 @@ import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Mic
-import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,46 +16,275 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ai.juntunen.welcomeback.AppViewModel
 import ai.juntunen.welcomeback.LanguageManager
+import ai.juntunen.welcomeback.services.LiveSessionState
 import ai.juntunen.welcomeback.ui.theme.*
 
 /**
- * Full-screen voice conversation overlay. Presented as a conditional in
- * [ai.juntunen.welcomeback.ui.MainAppScreen] when the mic button is tapped.
+ * Full-screen voice conversation overlay.
+ * Tries Gemini Live (WebSocket) first; falls back to text-based VoiceSession if it fails.
  */
 @Composable
 fun ListeningScreen(onDismiss: () -> Unit) {
-    val lang   = LanguageManager
-    val vm: VoiceSessionViewModel = viewModel()
+    val lang = LanguageManager
+    val appVM: AppViewModel = viewModel()
+    val profile by appVM.userProfile.collectAsStateWithLifecycle()
 
-    val phase      by vm.phase.collectAsStateWithLifecycle()
-    val transcript by vm.transcript.collectAsStateWithLifecycle()
-    val reply      by vm.reply.collectAsStateWithLifecycle()
-    val error      by vm.error.collectAsStateWithLifecycle()
+    val liveVM: LiveSessionViewModel = viewModel()
+    val voiceVM: VoiceSessionViewModel = viewModel()
 
-    // Pulse animation for the mic ring
-    val infiniteTransition = rememberInfiniteTransition(label = "pulse")
-    val pulseScale by infiniteTransition.animateFloat(
-        initialValue = 1f, targetValue = 1.12f,
-        animationSpec = infiniteRepeatable(tween(800), RepeatMode.Reverse),
-        label = "pulse-scale"
+    val liveState by liveVM.state.collectAsStateWithLifecycle()
+    val useFallback by liveVM.useFallback.collectAsStateWithLifecycle()
+
+    // Start session on first composition
+    LaunchedEffect(Unit) {
+        liveVM.beginSession(profile)
+    }
+
+    // If live session errors, also start fallback voice session
+    LaunchedEffect(useFallback) {
+        if (useFallback) voiceVM.startListening()
+    }
+
+    // Cleanup on dismiss
+    DisposableEffect(Unit) {
+        onDispose {
+            liveVM.endSession()
+            voiceVM.reset()
+        }
+    }
+
+    if (useFallback) {
+        FallbackVoiceUI(voiceVM = voiceVM, onDismiss = onDismiss)
+    } else {
+        LiveSessionUI(liveState = liveState, onDismiss = onDismiss) { liveVM.endSession(); onDismiss() }
+    }
+}
+
+// ── Live session UI ───────────────────────────────────────────────────────────
+
+@Composable
+private fun LiveSessionUI(
+    liveState: LiveSessionState,
+    onDismiss: () -> Unit,
+    onEnd: () -> Unit
+) {
+    val lang = LanguageManager
+
+    // Determine blob color and glow intensity based on state
+    val isAiSpeaking = liveState == LiveSessionState.AiSpeaking
+    val isUserSpeaking = liveState == LiveSessionState.UserSpeaking
+    val isListening = liveState == LiveSessionState.Listening
+
+    val blobColor = when {
+        isAiSpeaking -> AccentYellow
+        isListening || isUserSpeaking -> AccentYellow.copy(alpha = 0.65f)
+        else -> OnSurface.copy(alpha = 0.25f)
+    }
+    val glowAlpha = when {
+        isAiSpeaking -> 0.18f
+        isListening || isUserSpeaking -> 0.10f
+        else -> 0.03f
+    }
+
+    // Pulse animation
+    val infiniteTransition = rememberInfiniteTransition(label = "blob")
+    val blobScale by infiniteTransition.animateFloat(
+        initialValue = 1f, targetValue = 1.08f,
+        animationSpec = infiniteRepeatable(tween(900, easing = FastOutSlowInEasing), RepeatMode.Reverse),
+        label = "blob-scale"
+    )
+    val shouldPulse = isAiSpeaking || isListening || isUserSpeaking
+
+    // Waveform bar animations (5 bars, staggered)
+    val barHeights = listOf(16f, 24f, 40f, 24f, 16f)
+    val barAnimations = barHeights.mapIndexed { idx, baseH ->
+        infiniteTransition.animateFloat(
+            initialValue = baseH,
+            targetValue = baseH * 1.8f,
+            animationSpec = infiniteRepeatable(
+                tween(400 + idx * 80, easing = FastOutSlowInEasing),
+                RepeatMode.Reverse
+            ),
+            label = "bar-$idx"
+        )
+    }
+    val barVisible = isAiSpeaking || isListening || isUserSpeaking
+
+    val statusText = when (liveState) {
+        LiveSessionState.Connecting   -> lang.t("listening.connecting")
+        LiveSessionState.Listening    -> lang.t("listening.ready")
+        LiveSessionState.UserSpeaking -> lang.t("listening.go_on")
+        LiveSessionState.AiThinking   -> lang.t("listening.moment")
+        LiveSessionState.AiSpeaking   -> lang.t("listening.response")
+        LiveSessionState.Interrupted  -> lang.t("listening.moment")
+        LiveSessionState.Disconnected -> lang.t("listening.ended")
+        is LiveSessionState.Error     -> liveState.message
+        else -> ""
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.radialGradient(
+                    colors = listOf(
+                        AccentYellow.copy(alpha = glowAlpha),
+                        MaterialTheme.colorScheme.background
+                    ),
+                    radius = 900f
+                )
+            )
+    ) {
+        // Top bar
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 52.dp, start = 16.dp, end = 16.dp)
+                .align(Alignment.TopCenter)
+        ) {
+            IconButton(
+                onClick = onDismiss,
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+            ) {
+                Icon(Icons.Filled.Close, contentDescription = lang.t("common.cancel"), tint = OnSurface)
+            }
+            Text(
+                text = "Welcome Back",
+                color = OnSurface,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+
+        // Centre content
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Concentric ring borders + animated blob
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.size(240.dp)
+            ) {
+                // Outer ring
+                Box(
+                    modifier = Modifier
+                        .size(240.dp)
+                        .border(1.dp, blobColor.copy(alpha = 0.15f), CircleShape)
+                )
+                // Middle ring
+                Box(
+                    modifier = Modifier
+                        .size(200.dp)
+                        .border(1.dp, blobColor.copy(alpha = 0.25f), CircleShape)
+                )
+                // Blob
+                Box(
+                    modifier = Modifier
+                        .scale(if (shouldPulse) blobScale else 1f)
+                        .size(160.dp)
+                        .clip(CircleShape)
+                        .background(
+                            Brush.radialGradient(
+                                listOf(blobColor.copy(alpha = 0.55f), blobColor.copy(alpha = 0.12f))
+                            )
+                        )
+                )
+            }
+
+            Spacer(Modifier.height(24.dp))
+
+            // Status text
+            Text(
+                text = statusText,
+                color = OnSurface.copy(alpha = 0.75f),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center
+            )
+        }
+
+        // Bottom controls
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 56.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            // Waveform bars
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.height(48.dp)
+            ) {
+                barAnimations.forEachIndexed { idx, animH ->
+                    val h by animH
+                    Box(
+                        modifier = Modifier
+                            .width(4.dp)
+                            .height(if (barVisible) h.dp else barHeights[idx].dp)
+                            .clip(RoundedCornerShape(2.dp))
+                            .background(blobColor.copy(alpha = if (barVisible) 0.75f else 0.2f))
+                    )
+                }
+            }
+
+            // End button
+            Button(
+                onClick = onEnd,
+                shape = MaterialTheme.shapes.extraLarge,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    contentColor = OnSurface
+                ),
+                modifier = Modifier.height(48.dp)
+            ) {
+                Text(
+                    text = lang.t("listening.end"),
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp,
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
+            }
+        }
+    }
+}
+
+// ── Fallback (text-based voice) UI ────────────────────────────────────────────
+
+@Composable
+private fun FallbackVoiceUI(
+    voiceVM: VoiceSessionViewModel,
+    onDismiss: () -> Unit
+) {
+    val lang = LanguageManager
+    val phase by voiceVM.phase.collectAsStateWithLifecycle()
+    val transcript by voiceVM.transcript.collectAsStateWithLifecycle()
+    val reply by voiceVM.reply.collectAsStateWithLifecycle()
+    val error by voiceVM.error.collectAsStateWithLifecycle()
+
+    val infiniteTransition = rememberInfiniteTransition(label = "fallback-pulse")
+    val blobScale by infiniteTransition.animateFloat(
+        initialValue = 1f, targetValue = 1.08f,
+        animationSpec = infiniteRepeatable(tween(900), RepeatMode.Reverse),
+        label = "fallback-scale"
     )
     val isListening = phase == VoiceSessionViewModel.Phase.LISTENING
-
-    // Auto-start listening when screen opens
-    LaunchedEffect(Unit) { vm.startListening() }
-
-    // Cleanup when dismissed
-    DisposableEffect(Unit) {
-        onDispose { vm.reset() }
-    }
 
     Box(
         modifier = Modifier
@@ -68,13 +294,11 @@ fun ListeningScreen(onDismiss: () -> Unit) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 32.dp)
-                .verticalScroll(rememberScrollState()),
+                .padding(horizontal = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(Modifier.height(64.dp))
 
-            // Title
             Text(
                 text = lang.t("listening.title"),
                 color = OnSurface,
@@ -85,7 +309,6 @@ fun ListeningScreen(onDismiss: () -> Unit) {
 
             Spacer(Modifier.height(6.dp))
 
-            // Phase subtitle
             Text(
                 text = when (phase) {
                     VoiceSessionViewModel.Phase.IDLE      -> lang.t("listening.hint")
@@ -101,53 +324,29 @@ fun ListeningScreen(onDismiss: () -> Unit) {
 
             Spacer(Modifier.height(48.dp))
 
-            // ── Mic button ──────────────────────────────────────────
+            // Blob
             Box(
-                modifier = Modifier
-                    .scale(if (isListening) pulseScale else 1f)
-                    .size(160.dp)
-                    .clip(CircleShape)
-                    .background(
-                        Brush.radialGradient(
-                            when {
-                                isListening -> listOf(
-                                    AccentYellow.copy(alpha = 0.28f),
-                                    AccentYellow.copy(alpha = 0.07f)
-                                )
-                                phase == VoiceSessionViewModel.Phase.THINKING ||
-                                phase == VoiceSessionViewModel.Phase.SPEAKING -> listOf(
-                                    Color(0xFF4FC3F7).copy(alpha = 0.28f),
-                                    Color(0xFF4FC3F7).copy(alpha = 0.07f)
-                                )
-                                else -> listOf(
-                                    OnSurface.copy(alpha = 0.10f),
-                                    OnSurface.copy(alpha = 0.03f)
-                                )
-                            }
-                        )
-                    )
-                    .border(
-                        2.dp,
-                        if (isListening) AccentYellow.copy(alpha = 0.45f)
-                        else OnSurface.copy(alpha = 0.12f),
-                        CircleShape
-                    ),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.size(240.dp)
             ) {
-                Icon(
-                    imageVector = when (phase) {
-                        VoiceSessionViewModel.Phase.LISTENING -> Icons.Filled.Mic
-                        else                                  -> Icons.Filled.Mic
-                    },
-                    contentDescription = null,
-                    tint = if (isListening) AccentYellow else OnSurface.copy(alpha = 0.5f),
-                    modifier = Modifier.size(62.dp)
+                Box(modifier = Modifier.size(240.dp).border(1.dp, AccentYellow.copy(alpha = 0.15f), CircleShape))
+                Box(modifier = Modifier.size(200.dp).border(1.dp, AccentYellow.copy(alpha = 0.25f), CircleShape))
+                Box(
+                    modifier = Modifier
+                        .scale(if (isListening) blobScale else 1f)
+                        .size(160.dp)
+                        .clip(CircleShape)
+                        .background(
+                            Brush.radialGradient(
+                                if (isListening) listOf(AccentYellow.copy(0.55f), AccentYellow.copy(0.12f))
+                                else listOf(OnSurface.copy(0.15f), OnSurface.copy(0.05f))
+                            )
+                        )
                 )
             }
 
-            Spacer(Modifier.height(40.dp))
+            Spacer(Modifier.height(28.dp))
 
-            // ── Live transcript ─────────────────────────────────────
             if (transcript.isNotBlank()) {
                 Box(
                     modifier = Modifier
@@ -156,89 +355,52 @@ fun ListeningScreen(onDismiss: () -> Unit) {
                         .background(MaterialTheme.colorScheme.surfaceContainer)
                         .padding(16.dp)
                 ) {
-                    Text(
-                        text = "\"$transcript\"",
-                        color = OnSurface.copy(alpha = 0.75f),
-                        fontSize = 16.sp,
-                        fontStyle = FontStyle.Italic,
-                        lineHeight = 24.sp
-                    )
+                    Text("\"$transcript\"", color = OnSurface.copy(0.75f), fontSize = 16.sp)
                 }
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(12.dp))
             }
 
-            // ── AI reply ────────────────────────────────────────────
             if (reply.isNotBlank()) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(MaterialTheme.shapes.large)
-                        .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f))
-                        .border(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.25f), MaterialTheme.shapes.large)
+                        .background(MaterialTheme.colorScheme.primaryContainer.copy(0.35f))
                         .padding(16.dp)
                 ) {
-                    Text(
-                        text = reply,
-                        color = OnSurface.copy(alpha = 0.88f),
-                        fontSize = 16.sp,
-                        lineHeight = 24.sp
-                    )
+                    Text(reply, color = OnSurface.copy(0.88f), fontSize = 16.sp, lineHeight = 24.sp)
                 }
-                Spacer(Modifier.height(16.dp))
-            }
-
-            // ── Error ────────────────────────────────────────────────
-            if (error != null) {
-                Text(
-                    text = error!!,
-                    color = Color(0xFFFF6B6B),
-                    fontSize = 13.sp,
-                    textAlign = TextAlign.Center
-                )
                 Spacer(Modifier.height(12.dp))
             }
 
-            Spacer(Modifier.height(16.dp))
-
-            // ── Action buttons ──────────────────────────────────────
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                // Stop / Start listening
-                Button(
-                    onClick = {
-                        if (isListening) vm.stopListening() else vm.startListening()
-                    },
-                    modifier = Modifier.weight(1f).height(50.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isListening) Color(0xFFFF6B6B) else AccentYellow,
-                        contentColor = Color.Black
-                    ),
-                    shape = MaterialTheme.shapes.medium
-                ) {
-                    Icon(
-                        if (isListening) Icons.Filled.Stop else Icons.Filled.Mic,
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(Modifier.width(6.dp))
-                    Text(
-                        text = if (isListening) lang.t("listening.stop") else lang.t("listening.start"),
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+            if (error != null) {
+                Text(error!!, color = Color(0xFFFF6B6B), fontSize = 13.sp, textAlign = TextAlign.Center)
+                Spacer(Modifier.height(12.dp))
             }
-
-            Spacer(Modifier.height(40.dp))
         }
 
-        // Dismiss (X) button top-right
+        // End button at bottom
+        Button(
+            onClick = onDismiss,
+            shape = MaterialTheme.shapes.extraLarge,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                contentColor = OnSurface
+            ),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 56.dp)
+                .height(48.dp)
+        ) {
+            Text(lang.t("listening.end"), fontWeight = FontWeight.SemiBold, fontSize = 16.sp,
+                modifier = Modifier.padding(horizontal = 24.dp))
+        }
+
         IconButton(
             onClick = onDismiss,
             modifier = Modifier
                 .padding(16.dp)
-                .align(Alignment.TopEnd)
+                .align(Alignment.TopStart)
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.surfaceContainerHigh)
         ) {
